@@ -80,12 +80,14 @@ public with sharing class FlowControlLoopsCollections {
      * @return A string indicating whether the number is "Positive", "Negative", or "Zero", or null if the number is null.
      */
     public static String checkNumber(Integer a) {
-        String numberType = null;
-        if (a >= 1) {
+        String numberType;
+        if (a == null) {
+            numberType = null;
+        } else if (a >= 1) {
             numberType = 'Positive';
         } else if (a == 0) {
             numberType = 'Zero';
-        } else if (a < 0) {
+        } else {
             numberType = 'Negative';
         }
         return numberType;
@@ -99,10 +101,12 @@ public with sharing class FlowControlLoopsCollections {
      * @return A string indicating whether the number is "Even" or "Odd", or null if the number is null.
      */
     public static String checkEvenOdd(Integer a) {
-        String result = null;
-        if (a != null && Math.mod(a, 2) == 0) {
+        String result;
+        if (a == null) {
+            result = null;
+        } else if (Math.mod(a, 2) == 0) {
             result = 'Even';
-        } else if (a != null) {
+        } else {
             result = 'Odd';
         }
         return result;
@@ -115,12 +119,12 @@ public with sharing class FlowControlLoopsCollections {
      * @return A string indicating whether the input is "Empty", "Null", or "Contains Text".
      */
     public static String checkString(String a) {
-        String result = 'Null';
-        //Looks like the IsBlank method returns true for both empty scenarios - '' and ' '
-        //Since this method also returns true for null, check that the value is not null.
-        if (String.IsBlank(a) && a != null) {
+        String result;
+        if (a == null) {
+            result = 'Null';
+        } else if (String.IsBlank(a)) {
             result = 'Empty';
-        } else if (a != null) {
+        } else {
             result = 'Contains Text';
         }
         return result; 
@@ -138,8 +142,10 @@ public with sharing class FlowControlLoopsCollections {
      * @return The grade for the given score.
      */
     public static String determineGrade(Integer score) {
-        String grade = null;
-        if (score >= 90) {
+        String grade;
+        if (score == null) {
+            grade = null;
+        } else if (score >= 90) {
             grade = 'A';
         } else if (score >= 80) {
             grade = 'B';
@@ -147,7 +153,7 @@ public with sharing class FlowControlLoopsCollections {
             grade = 'C';
         } else if (score >= 60) {
             grade = 'D';
-        } else if (score != null) {
+        } else {
             grade = 'F';
         }
         return grade;
@@ -165,9 +171,9 @@ public with sharing class FlowControlLoopsCollections {
         if (intLimit != null) {
             //Setting to 0 allows me to use += in the loop. I think if it was null, I got an exception
             sum = 0;
-        }
-        for (Integer i = 1; i <= intLimit; i++){
-            sum += i;
+            for (Integer i = 1; i <= intLimit; i++) {
+                sum += i;
+            }
         }
         return sum; 
     }
@@ -181,7 +187,6 @@ public with sharing class FlowControlLoopsCollections {
     //Since this value shouldn't change in the code, this felt like a good scenario to use a final variable 
     public static final String HELLO_WORLD = 'Hello World!; ';
     public static String returnHelloWorld() {
-        //Declared String as null per best practices we've been taught
         String result = null;
         for (Integer i = 0; i <= 2; i++) {
             //Cannot just use += for each iteration as on the first loop, the value would be 'nullHello World!; '. If there are other suggestions for this, let me know!
@@ -206,21 +211,23 @@ public with sharing class FlowControlLoopsCollections {
     public static String repeatString(String inputString, Integer repeatCount) {
         // Initialize the result String
         String result = null;
-        // Build a variable that can be used when it is not the last iteration and requires a semi-colon
-        String inputStringSemiColon = inputString + '; ';
-        for (Integer i = 1; i <= repeatCount; i++) {
-            //If repeat count is 1, we just want the input string with no semi-colon
-            if (i == 1 && repeatCount == 1) {
-                result = inputString;
-            //If repeat count is greater than 1 and it is the first iteration, we can't use += operator as the result will be 'nullinputString; '
-            } else if (i == 1 && i < repeatCount) {
-                result = inputStringSemiColon;
-            //This will be on a subsequent iteration that isn't the last, meaning we add the semi-colon and can use += operator to add to what exists
-            } else if (i < repeatCount) {
-                result += inputStringSemiColon;
-            //This will be when repeatCount is > 1 and we are on the last iteration, meaning no semi-colon and can use += to add to what exists
-            } else {
-                result += inputString;
+        if (inputString != null && repeatCount != null) {
+            // Build a variable that can be used when it is not the last iteration and requires a semi-colon
+            String inputStringSemiColon = inputString + '; ';
+            for (Integer i = 1; i <= repeatCount; i++) {
+                //If repeat count is 1, we just want the input string with no semi-colon
+                if (i == 1 && repeatCount == 1) {
+                    result = inputString;
+                //If repeat count is greater than 1 and it is the first iteration, we can't use += operator as the result will be 'nullinputString; '
+                } else if (i == 1 && i < repeatCount) {
+                    result = inputStringSemiColon;
+                //This will be on a subsequent iteration that isn't the last, meaning we add the semi-colon and can use += operator to add to what exists
+                } else if (i < repeatCount) {
+                    result += inputStringSemiColon;
+                //This will be when repeatCount is > 1 and we are on the last iteration, meaning no semi-colon and can use += to add to what exists
+                } else {
+                    result += inputString;
+                }
             }
         }
         return result;
