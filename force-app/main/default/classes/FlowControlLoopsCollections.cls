@@ -187,14 +187,9 @@ public with sharing class FlowControlLoopsCollections {
     //Since this value shouldn't change in the code, this felt like a good scenario to use a final variable 
     public static final String HELLO_WORLD = 'Hello World!; ';
     public static String returnHelloWorld() {
-        String result = null;
+        String result = '';
         for (Integer i = 0; i <= 2; i++) {
-            //Cannot just use += for each iteration as on the first loop, the value would be 'nullHello World!; '. If there are other suggestions for this, let me know!
-            if (i == 0) {
-                result = HELLO_WORLD;
-            } else {
-                result += HELLO_WORLD;
-            }
+            result += HELLO_WORLD;
         }
         return result; 
     }
@@ -209,26 +204,14 @@ public with sharing class FlowControlLoopsCollections {
      * @return The new string with the inputString repeated repeatCount times.
      */
     public static String repeatString(String inputString, Integer repeatCount) {
-        // Initialize the result String
         String result = null;
         if (inputString != null && repeatCount != null) {
-            // Build a variable that can be used when it is not the last iteration and requires a semi-colon
+            result = '';
             String inputStringSemiColon = inputString + '; ';
             for (Integer i = 1; i <= repeatCount; i++) {
-                //If repeat count is 1, we just want the input string with no semi-colon
-                if (i == 1 && repeatCount == 1) {
-                    result = inputString;
-                //If repeat count is greater than 1 and it is the first iteration, we can't use += operator as the result will be 'nullinputString; '
-                } else if (i == 1 && i < repeatCount) {
-                    result = inputStringSemiColon;
-                //This will be on a subsequent iteration that isn't the last, meaning we add the semi-colon and can use += operator to add to what exists
-                } else if (i < repeatCount) {
-                    result += inputStringSemiColon;
-                //This will be when repeatCount is > 1 and we are on the last iteration, meaning no semi-colon and can use += to add to what exists
-                } else {
-                    result += inputString;
-                }
+                result += inputStringSemiColon;
             }
+            result = result.removeEnd('; ');
         }
         return result;
     }
@@ -324,7 +307,7 @@ public with sharing class FlowControlLoopsCollections {
     public static Integer findWordInList(String wordToFind, List<String> words) {
         Integer numberReturned = null;
         //Check neither argument is null or an empty list. Method will return null if either is null or an empty list.
-        if (wordToFind != null && words != null && words.isEmpty() == false) {
+        if (wordToFind != null && words != null && !words.isEmpty()) {
             /*
             I know that indexOf will return -1, but it seemed simpler to just set this directly before the loop. 
             I considered having an else stement in the loop to set numberReturned to words.indexOf(currentWord) so it'll = -1 each time a match isn't found.
